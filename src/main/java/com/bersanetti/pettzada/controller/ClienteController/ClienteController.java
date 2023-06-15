@@ -31,12 +31,12 @@ public class ClienteController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-//        Optional<Cliente> cliente = clienteRepository.findById(clientId);
-//        if (cliente.isPresent()){
-//            return ResponseEntity.ok(cliente.get());
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
+/*       Optional<Cliente> cliente = clienteRepository.findById(clientId);
+        if (cliente.isPresent()){
+            return ResponseEntity.ok(cliente.get());
+        }
+        return ResponseEntity.notFound().build();
+    } */
 
 
     @PostMapping

@@ -3,10 +3,9 @@ package com.bersanetti.pettzada.domain.service;
 import com.bersanetti.pettzada.domain.exception.NegocioException;
 import com.bersanetti.pettzada.domain.model.Cliente;
 import com.bersanetti.pettzada.domain.repositoy.ClienteRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.aspectj.apache.bcel.generic.InstructionConstants;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @Service
