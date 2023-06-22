@@ -1,5 +1,6 @@
 package com.bersanetti.pettzada.controller.exceptionHandler;
 
+import com.bersanetti.pettzada.domain.exception.EntidadeNaoEncontradaException;
 import com.bersanetti.pettzada.domain.exception.NegocioException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -45,6 +46,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problema.setTitulo("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente");
         problema.setCampos(campos);
         return handleExceptionInternal(ex, problema, headers, status, request);
+    }
+
+    @ExceptionHandler (EntidadeNaoEncontradaException.class)
+    public ResponseEntity<Object> handleEntidadeNaoEncontrada(NegocioException ex, WebRequest resquest) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        Problema problema = new Problema();
+        problema.setStatus(status.value());
+        problema.setDataHora(OffsetDateTime.now());
+        problema.setTitulo(ex.getMessage());
+
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, resquest);
     }
 
     @ExceptionHandler (NegocioException.class)

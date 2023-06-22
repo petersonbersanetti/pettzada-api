@@ -3,12 +3,11 @@ package com.bersanetti.pettzada.controller.ClienteController;
 import com.bersanetti.pettzada.assembler.EntregaAssembler;
 import com.bersanetti.pettzada.domain.model.Entrega;
 import com.bersanetti.pettzada.domain.repositoy.EntregaRepository;
+import com.bersanetti.pettzada.domain.service.FinalizacaoEntregaService;
 import com.bersanetti.pettzada.domain.service.SolicitacaoEntregaService;
-import com.bersanetti.pettzada.model.DestinatarioModel;
 import com.bersanetti.pettzada.model.EntregaModel;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +21,7 @@ public class EntregaContoller {
 
     private EntregaRepository entregaRepository;
     private SolicitacaoEntregaService solicitacaoEntregaService;
+    private FinalizacaoEntregaService finalizacaoEntregaService;
     private EntregaAssembler entregaAssembler;
 
     @PostMapping
@@ -29,6 +29,12 @@ public class EntregaContoller {
     public EntregaModel solicitar(@Valid @RequestBody Entrega entrega){
         Entrega entregaSolicitada = solicitacaoEntregaService.solicitar(entrega);
         return entregaAssembler.toModel(entregaSolicitada);
+    }
+
+    @PutMapping ("/{entregaId}/finalizacao")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void finalizar (@PathVariable Long entregaId){
+        finalizacaoEntregaService.finaliza(entregaId);
     }
 
     @GetMapping
@@ -41,6 +47,9 @@ public class EntregaContoller {
         return entregaRepository.findById(entregaId) //se nao existir nada dentro do optional retornado pelo entregaId
                 .map(entrega -> ResponseEntity.ok(entregaAssembler.toModel(entrega)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+}
+
 
 //                    EntregaModel entregaModel = new EntregaModel();
 //                    entregaModel.setId(entrega.getId());
@@ -59,6 +68,3 @@ public class EntregaContoller {
 
 //                })
 //                .orElse(ResponseEntity.notFound().build()); //retorna um notfound 404
-    }
-
-}
